@@ -1,0 +1,31 @@
+{
+  "name": "Export saved links",
+  "version": "0.0.3",
+  "manifest_version": 2,
+  "description": "Export saved links from FB (the social network wink wink)",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "browser_action": {
+    "default_icon": "icons/icon19.png",
+    "default_title": "Export saved links",
+    "default_popup": "src/page_action/page_action.html"
+  },
+  "permissions": [
+    "clipboardWrite",
+    "https://www.facebook.com/saved",
+    "tabs"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.facebook.com/saved"
+      ],
+      "js": [
+        "src/inject/inject.js"
+      ]
+    }
+  ]
+}

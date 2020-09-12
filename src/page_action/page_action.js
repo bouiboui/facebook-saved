@@ -1,5 +1,5 @@
 chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-	if ('https://www.facebook.com/saved' !== tabs[0].url) {
+	if (!tabs[0].url.match(/^https:\/\/www.facebook.com\/saved/gis)) {
 		UIkit.modal(document.querySelector('#modal-center')).show();
 	} else {
 		UIkit.modal(document.querySelector('#modal-center')).hide();

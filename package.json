@@ -1,6 +1,4 @@
 {
   "name": "facebook-saved",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+  "version": "0.0.4"
 }

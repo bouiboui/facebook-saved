@@ -1,6 +1,6 @@
 {
   "name": "Export saved links",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "manifest_version": 2,
   "description": "Export saved links from FB (the social network wink wink)",
   "icons": {

@@ -1,48 +1,65 @@
 <!doctype html>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/css/uikit.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.6/css/uikit.min.css"/>
 
 <style type="text/css">
-	#mainPopup {
-		width: 400px;
-	}
+    #mainPopup {
+        width: 400px;
+    }
 
-	body {
-		height: auto;
-	}
-	#foundLinksCountSpan {
-		font-weight: bold;
-	}
-	#spinner {
-		display: none;
-	}
+    body {
+        height: auto;
+    }
+
+    #foundLinksCountSpan {
+        font-weight: bold;
+    }
+
+    #spinner {
+        display: none;
+    }
 </style>
 
 <body>
 <div class="uk-padding uk-padding-large uk-background-muted uk-width-1-2@s" id="mainPopup">
 
-	<h1 class="uk-heading-divider"><div id="spinner" uk-spinner class="uk-align-right"></div>Export saved links  </h1>
-	<p>
-		<button class="uk-button uk-button-primary uk-button-small" type="button" id="doItButton"><span uk-icon="search"></span> Find links</button>
-		<button class="uk-button uk-button-default uk-button-small" type="button"  id="startAutoScrollButton"><span uk-icon="play"></span> Start autoscroll</button>
-		<button class="uk-button uk-button-default uk-button-small" type="button" id="stopAutoScrollButton" style="display: none"><span uk-icon="close"></span> Stop autoscroll</button>
+    <h1 class="uk-heading-divider">
+        <div id="spinner" uk-spinner class="uk-align-right"></div>
+        Export saved links
+    </h1>
+    <p>
+        <button class="uk-button uk-button-primary uk-button-small" type="button" id="doItButton"><span
+                uk-icon="search"></span> Find links
+        </button>
+        <button class="uk-button uk-button-default uk-button-small" type="button" id="startAutoScrollButton"><span
+                uk-icon="play"></span> Start autoscroll
+        </button>
+        <button class="uk-button uk-button-default uk-button-small" type="button" id="stopAutoScrollButton"
+                style="display: none"><span uk-icon="close"></span> Stop autoscroll
+        </button>
 
-		</p>
-	<p><span id="foundLinksCountSpan">0</span> links have been found on this page.</p>
-	<p><textarea class="uk-textarea" id="foundLinksTextarea" rows="10"></textarea> </p>
-	<p><button class="uk-button uk-button-secondary uk-button-small" type="button" id="copyButton"><span uk-icon="copy"></span> Copy / Save to clipboard</button></p>
+    </p>
+    <p><span id="foundLinksCountSpan">0</span> links have been found on this page.</p>
+    <p><textarea class="uk-textarea" id="foundLinksTextarea" rows="10"></textarea></p>
+    <p>
+        <button class="uk-button uk-button-secondary uk-button-small" type="button" id="copyButton"><span
+                uk-icon="copy"></span> Copy / Save to clipboard
+        </button>
+    </p>
 
 
 </div>
 
-	<div id="modal-center" class="uk-flex-top" uk-modal="esc-close: false;bg-close: false">
+<div id="modal-center" class="uk-flex-top" uk-modal="esc-close: false;bg-close: false">
     <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
 
         <p>You need to be on FB's "Saved items" page for this extension to work.</p>
-        <p><button id="openSavedPage" class="uk-button uk-button-primary">Open in a new tab</button></p>
+        <p>
+            <button id="openSavedPage" class="uk-button uk-button-primary">Open page</button>
+        </p>
 
     </div>
-	</div>
+</div>
 
 <script src="../../js/uikit/uikit.3.1.6.min.js"></script>
 <script src="../../js/uikit/uikit-icons.3.1.6.min.js"></script>

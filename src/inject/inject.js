@@ -1,12 +1,12 @@
 let scrollHandle;
 
 const findLinks = () => {
-  const res = [...document.querySelectorAll('#saveContentFragment div[id^=item]')].map(item => item.querySelector('a:nth-child(1)')).map(l => decodeURIComponent(l.href).match(/^(?:.+?\?u=)?(.+?)(.fbclid.+)?$/)[1]);
+  const res = findLinksUniversal(document)
   chrome.extension.sendMessage({foundLinks: res});
 }
 
 chrome.extension.onMessage.addListener(
-  function(request, sender, sendResponse) {
+  function (request, sender, sendResponse) {
     if (request.doIt) {
       findLinks();
     }
@@ -14,7 +14,7 @@ chrome.extension.onMessage.addListener(
       if (request.autoScroll === "start") {
         clearInterval(scrollHandle);
         scrollHandle = setInterval(() => {
-          scrollTo(0,document.body.scrollHeight);
+          scrollTo(0, document.body.scrollHeight);
           findLinks();
         }, 500);
       }

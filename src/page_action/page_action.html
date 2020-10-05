@@ -23,10 +23,10 @@
 <body>
 <div class="uk-padding uk-padding-large uk-background-muted uk-width-1-2@s" id="mainPopup">
 
-    <h1 class="uk-heading-divider">
+    <h2 class="uk-heading-divider">
         <div id="spinner" uk-spinner class="uk-align-right"></div>
         Export saved links
-    </h1>
+    </h2>
     <p>
         <button class="uk-button uk-button-primary uk-button-small" type="button" id="doItButton"><span
                 uk-icon="search"></span> Find links
@@ -40,12 +40,29 @@
 
     </p>
     <p><span id="foundLinksCountSpan">0</span> links have been found on this page.</p>
-    <p><textarea class="uk-textarea" id="foundLinksTextarea" rows="10"></textarea></p>
-    <p>
-        <button class="uk-button uk-button-secondary uk-button-small" type="button" id="copyButton"><span
-                uk-icon="copy"></span> Copy / Save to clipboard
+    <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+        <label><input class="uk-radio" type="radio" value="urls" name="exportType" checked> Export URLs only (ex:
+            google.com)</label>
+        <label><input class="uk-radio" type="radio" value="urls+titles" name="exportType"> Export URLs and titles (ex:
+            google.com
+            Google)</label>
+    </div>
+    <div style="margin-bottom: 1em">
+        <button class="uk-button uk-button-secondary uk-button-small" type="button" id="copyTextButton"><span
+                uk-icon="copy"></span> Copy as text
         </button>
-    </p>
+        <button class="uk-button uk-button-secondary uk-button-small" type="button" id="copyCSVButton"><span
+                uk-icon="copy"></span> Copy as CSV
+        </button>
+    </div>
+    <div>
+        <button class="uk-button uk-button-secondary uk-button-small" type="button" id="saveTextButton"><span
+                uk-icon="file-text"></span> Save text file
+        </button>
+        <button class="uk-button uk-button-secondary uk-button-small" type="button" id="saveCSVButton"><span
+                uk-icon="database"></span> Save CSV file
+        </button>
+    </div>
 
 
 </div>

@@ -1,3 +1,13 @@
+let linksFound;
+
+const linksFoundText = () => document.querySelector('[name="exportType"]:checked').value === 'urls+titles'
+  ? linksFound.map(([url, title]) => `${url} ${title}`).join('\n')
+  : linksFound.map(([url]) => url).join('\n')
+
+const linksFoundCSV = () => document.querySelector('[name="exportType"]:checked').value === 'urls+titles'
+  ? linksFound.map(([url, title]) => `${csvField(url)},${csvField(title)}`).join(CSV_ROW_SEPARATOR)
+  : linksFound.map(([url]) => csvField(url)).join(CSV_ROW_SEPARATOR)
+
 chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
   if (!tabs[0].url.match(/facebook.com\/saved/gis)) {
     UIkit.modal(document.querySelector('#modal-center')).show();
@@ -33,10 +43,42 @@ onClick('#stopAutoScrollButton', () => {
   sendMessageToTab({autoScroll: "stop"});
 });
 
-onClick('#copyButton', () => {
-  document.querySelector('#foundLinksTextarea').select();
+onClick('#copyTextButton', () => {
+  var dummy = document.createElement("textarea");
+  document.body.appendChild(dummy);
+  dummy.value = linksFoundText();
+  dummy.select();
   document.execCommand("copy");
-  UIkit.notification('Copied to clipboard!', {pos: 'bottom-center'});
+  document.body.removeChild(dummy);
+  UIkit.notification('Copied to clipboard!', {pos: 'top-center'});
+});
+
+onClick('#copyCSVButton', () => {
+  var dummy = document.createElement("textarea");
+  document.body.appendChild(dummy);
+  dummy.value = linksFoundCSV();
+  dummy.select();
+  document.execCommand("copy");
+  document.body.removeChild(dummy);
+  UIkit.notification('Copied to clipboard!', {pos: 'top-center'});
+});
+
+onClick('#saveTextButton', () => {
+  var hiddenElement = document.createElement('a');
+  hiddenElement.href = 'data:attachment/text,' + encodeURI(linksFoundText());
+  hiddenElement.target = '_blank';
+  hiddenElement.download = 'saved-links.txt';
+  hiddenElement.click();
+  UIkit.notification('Saved as text file!', {pos: 'top-center'});
+});
+
+onClick('#saveCSVButton', () => {
+  var hiddenElement = document.createElement('a');
+  hiddenElement.href = 'data:attachment/csv,' + encodeURI(linksFoundCSV());
+  hiddenElement.target = '_blank';
+  hiddenElement.download = 'saved-links.csv';
+  hiddenElement.click();
+  UIkit.notification('Saved as CSV file!', {pos: 'top-center'});
 });
 
 onClick('#openSavedPage', () => {
@@ -51,12 +93,17 @@ onClick('#openSavedPage', () => {
   })
 });
 
+const CSV_ROW_SEPARATOR = "\n"
+
+const csvField = str => `"${str.replace(/"/gis, '""')}"`
+
 chrome.extension.onMessage.addListener(
   function (request, sender, sendResponse) {
+    document.querySelector('#spinner').style.display = "none";
+    document.querySelector('#foundLinksCountSpan').innerHTML = "0";
     if (request.foundLinks) {
-      document.querySelector('#spinner').style.display = "none";
       const res = request.foundLinks;
       document.querySelector('#foundLinksCountSpan').innerHTML = res.length;
-      document.querySelector('#foundLinksTextarea').value = res.join(' ');
+      linksFound = res;
     }
   });

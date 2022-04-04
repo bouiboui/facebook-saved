@@ -1,6 +1,6 @@
 <!doctype html>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.16/css/uikit.min.css"/>
+<link href="../../js/uikit/uikit.min.css" rel="stylesheet"/>
 
 <style type="text/css">
     #mainPopup {
@@ -24,62 +24,66 @@
 <div class="uk-padding uk-padding-large uk-background-muted uk-width-1-2@s" id="mainPopup">
 
     <h2 class="uk-heading-divider">
-        <div id="spinner" uk-spinner class="uk-align-right"></div>
+        <div class="uk-align-right" id="spinner" uk-spinner></div>
         Export saved links
     </h2>
     <p>
-        <button class="uk-button uk-button-primary uk-button-small" type="button" id="doItButton"><span
-                uk-icon="search"></span> Find links
+        <button class="uk-button uk-button-primary uk-button-small" id="doItButton" type="button">
+            <span uk-icon="search"></span> Find links
         </button>
-        <button class="uk-button uk-button-default uk-button-small" type="button" id="startAutoScrollButton"><span
-                uk-icon="play"></span> Start autoscroll
+        <button class="uk-button uk-button-default uk-button-small" id="startAutoScrollButton" type="button">
+            <span uk-icon="play"></span> Start autoscroll
         </button>
-        <button class="uk-button uk-button-default uk-button-small" type="button" id="stopAutoScrollButton"
-                style="display: none"><span uk-icon="close"></span> Stop autoscroll
+        <button class="uk-button uk-button-default uk-button-small" id="stopAutoScrollButton" style="display: none"
+                type="button">
+            <span uk-icon="close"></span> Stop autoscroll
         </button>
 
     </p>
     <p><span id="foundLinksCountSpan">0</span> links have been found on this page.</p>
     <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
-        <label><input class="uk-radio" type="radio" value="urls" name="exportType" checked> Export URLs only (ex:
-            google.com)</label>
-        <label><input class="uk-radio" type="radio" value="urls+titles" name="exportType"> Export URLs and titles (ex:
-            google.com
-            Google)</label>
+        <label>
+            <input checked class="uk-radio" name="exportType" type="radio" value="urls">
+            Export URLs only (ex: google.com)
+        </label>
+        <label>
+            <input class="uk-radio" name="exportType" type="radio" value="urls+titles">
+            Export URLs and titles (ex: google.com Google)
+        </label>
     </div>
     <div style="margin-bottom: 1em">
-        <button class="uk-button uk-button-secondary uk-button-small" type="button" id="copyTextButton"><span
-                uk-icon="copy"></span> Copy as text
+        <button class="uk-button uk-button-secondary uk-button-small" id="copyTextButton" type="button">
+            <span uk-icon="copy"></span> Copy as text
         </button>
-        <button class="uk-button uk-button-secondary uk-button-small" type="button" id="copyCSVButton"><span
-                uk-icon="copy"></span> Copy as CSV
+        <button class="uk-button uk-button-secondary uk-button-small" id="copyCSVButton" type="button">
+            <span uk-icon="copy"></span> Copy as CSV
         </button>
     </div>
     <div>
-        <button class="uk-button uk-button-secondary uk-button-small" type="button" id="saveTextButton"><span
-                uk-icon="file-text"></span> Save text file
+        <button class="uk-button uk-button-secondary uk-button-small" id="saveTextButton" type="button">
+            <span uk-icon="file-text"></span> Save text file
         </button>
-        <button class="uk-button uk-button-secondary uk-button-small" type="button" id="saveCSVButton"><span
-                uk-icon="database"></span> Save CSV file
+        <button class="uk-button uk-button-secondary uk-button-small" id="saveCSVButton" type="button">
+            <span uk-icon="database"></span> Save CSV file
         </button>
     </div>
 
 
 </div>
 
-<div id="modal-center" class="uk-flex-top" uk-modal="esc-close: false;bg-close: false">
+<div class="uk-flex-top" id="modal-center" uk-modal="esc-close: false;bg-close: false">
     <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
 
         <p>You need to be on FB's "Saved items" page for this extension to work.</p>
         <p>
-            <button id="openSavedPage" class="uk-button uk-button-primary">Open page</button>
+            <button class="uk-button uk-button-primary" id="openSavedPage">Open page</button>
         </p>
 
     </div>
 </div>
 
-<script src="../../js/uikit/uikit.3.5.7.min.js"></script>
-<script src="../../js/uikit/uikit-icons.3.5.7.min.js"></script>
-<script type="text/javascript" src="page_action.js"></script>
+<script src="../../js/uikit/uikit.3.13.7.min.js"></script>
+<script src="../../js/uikit/uikit-icons.3.13.7.min.js"></script>
+<script src="page_action.js" type="text/javascript"></script>
 
 </body>

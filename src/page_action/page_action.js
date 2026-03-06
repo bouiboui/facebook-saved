@@ -85,6 +85,10 @@ onClick("#saveCSVButton", () => {
   UIkit.notification("Saved as CSV file!", { pos: "top-center" });
 });
 
+onClick("#bulkDeleteButton", () => {
+  sendMessageToTab({ bulkDelete: true });
+});
+
 onClick("#openSavedPage", () => {
   chrome.tabs.query({ url: "https://*.facebook.com/saved*" }, (tabs) => {
     if (tabs.length > 0) {

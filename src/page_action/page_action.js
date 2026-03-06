@@ -55,6 +55,7 @@ onClick("#copyTextButton", () => {
   document.execCommand("copy");
   document.body.removeChild(dummy);
   UIkit.notification("Copied to clipboard!", { pos: "top-center" });
+  removeExportedLinks();
 });
 
 onClick("#copyCSVButton", () => {
@@ -65,6 +66,7 @@ onClick("#copyCSVButton", () => {
   document.execCommand("copy");
   document.body.removeChild(dummy);
   UIkit.notification("Copied to clipboard!", { pos: "top-center" });
+  removeExportedLinks();
 });
 
 onClick("#saveTextButton", () => {
@@ -74,6 +76,7 @@ onClick("#saveTextButton", () => {
   hiddenElement.download = "saved-links.txt";
   hiddenElement.click();
   UIkit.notification("Saved as text file!", { pos: "top-center" });
+  removeExportedLinks();
 });
 
 onClick("#saveCSVButton", () => {
@@ -83,6 +86,7 @@ onClick("#saveCSVButton", () => {
   hiddenElement.download = "saved-links.csv";
   hiddenElement.click();
   UIkit.notification("Saved as CSV file!", { pos: "top-center" });
+  removeExportedLinks();
 });
 
 onClick("#openSavedPage", () => {
@@ -100,6 +104,18 @@ onClick("#openSavedPage", () => {
 const CSV_ROW_SEPARATOR = "\n";
 
 const csvField = (str) => `"${str.replace(/"/gis, '""')}"`;
+
+const shouldRemoveAfterExport = () =>
+  document.querySelector("#removeAfterExport").checked;
+
+const removeExportedLinks = () => {
+  if (shouldRemoveAfterExport()) {
+    UIkit.notification("Removing links from Facebook…", {
+      pos: "top-center",
+    });
+    sendMessageToTab({ removeLinks: true });
+  }
+};
 
 chrome.extension.onMessage.addListener((request) => {
   document.querySelector("#spinner").style.display = "none";

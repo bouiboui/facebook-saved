@@ -1,4 +1,5 @@
 let linksFound;
+let freshDataReceived = false;
 
 const linksFoundText = () =>
   document.querySelector('[name="exportType"]:checked').value === "urls+titles"
@@ -11,6 +12,14 @@ const linksFoundCSV = () =>
         .map(([url, title]) => `${csvField(url)},${csvField(title)}`)
         .join(CSV_ROW_SEPARATOR)
     : linksFound.map(([url]) => csvField(url)).join(CSV_ROW_SEPARATOR);
+
+chrome.storage.local.get("lastFoundLinks", (data) => {
+  if (!freshDataReceived && data.lastFoundLinks && data.lastFoundLinks.length > 0) {
+    linksFound = data.lastFoundLinks;
+    document.querySelector("#foundLinksCountSpan").textContent = linksFound.length;
+    document.querySelector("#cachedLinksSpan").style.display = "inline";
+  }
+});
 
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   if (!tabs[0].url.match(/facebook.com\/saved/gis)) {
@@ -106,7 +115,10 @@ chrome.extension.onMessage.addListener((request) => {
   document.querySelector("#foundLinksCountSpan").innerHTML = "0";
   if (request.foundLinks) {
     const res = request.foundLinks;
-    document.querySelector("#foundLinksCountSpan").innerHTML = res.length;
+    freshDataReceived = true;
+    document.querySelector("#foundLinksCountSpan").textContent = res.length;
+    document.querySelector("#cachedLinksSpan").style.display = "none";
     linksFound = res;
+    chrome.storage.local.set({ lastFoundLinks: res });
   }
 });

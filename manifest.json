@@ -16,6 +16,7 @@
   "permissions": [
     "clipboardWrite",
     "https://*.facebook.com/saved*",
+    "storage",
     "tabs"
   ],
   "content_scripts": [

@@ -2,13 +2,21 @@ let linksFound;
 
 const linksFoundText = () =>
   document.querySelector('[name="exportType"]:checked').value === "urls+titles"
-    ? linksFound.map(([url, title]) => `${url} ${title}`).join("\n")
+    ? linksFound
+        .map(
+          ([url, title, postUrl]) =>
+            `${url} ${title}${postUrl ? " " + postUrl : ""}`
+        )
+        .join("\n")
     : linksFound.map(([url]) => url).join("\n");
 
 const linksFoundCSV = () =>
   document.querySelector('[name="exportType"]:checked').value === "urls+titles"
     ? linksFound
-        .map(([url, title]) => `${csvField(url)},${csvField(title)}`)
+        .map(
+          ([url, title, postUrl]) =>
+            `${csvField(url)},${csvField(title)},${csvField(postUrl || "")}`
+        )
         .join(CSV_ROW_SEPARATOR)
     : linksFound.map(([url]) => csvField(url)).join(CSV_ROW_SEPARATOR);
 

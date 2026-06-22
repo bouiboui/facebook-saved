@@ -1,5 +1,12 @@
 let linksFound;
 
+// Load saved URL when popup opens
+chrome.storage.sync.get(['lastPostUrl'], (result) => {
+  if (result.lastPostUrl) {
+    document.querySelector("#postUrl").value = result.lastPostUrl;
+  }
+});
+
 const linksFoundText = () =>
   document.querySelector('[name="exportType"]:checked').value === "urls+titles"
     ? linksFound.map(([url, title]) => `${url} ${title}`).join("\n")
@@ -95,6 +102,90 @@ onClick("#openSavedPage", () => {
       chrome.tabs.create({ url: "https://www.facebook.com/saved" });
     }
   });
+});
+
+onClick("#postLinksButton", () => {
+  const url = document.querySelector("#postUrl").value.trim();
+
+  if (!url) {
+    UIkit.notification("Please enter a URL!", { status: "warning", pos: "top-center" });
+    return;
+  }
+
+  // Validate URL format and protocol (only allow http/https)
+  let parsedUrl;
+  try {
+    parsedUrl = new URL(url);
+  } catch (e) {
+    UIkit.notification("Please enter a valid URL (e.g., https://example.com).", {
+      status: "warning",
+      pos: "top-center"
+    });
+    return;
+  }
+
+  if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
+    UIkit.notification("URL must start with http:// or https://", {
+      status: "warning",
+      pos: "top-center"
+    });
+    return;
+  }
+  if (!linksFound || linksFound.length === 0) {
+    UIkit.notification("No links found to post!", { status: "warning", pos: "top-center" });
+    return;
+  }
+
+  // Save the URL for next time
+  chrome.storage.sync.set({ lastPostUrl: url });
+
+  const exportType = document.querySelector('[name="exportType"]:checked').value;
+  const payload = {
+    links: linksFound.map(([linkUrl, title]) => ({
+      url: linkUrl,
+      title: title
+    })),
+    exportType: exportType,
+    count: linksFound.length
+  };
+
+  // Show loading notification
+  UIkit.notification("Posting links...", { status: "primary", pos: "top-center", timeout: 2000 });
+
+  // Send message to background script to handle the POST request
+  chrome.runtime.sendMessage(
+    {
+      action: "postLinks",
+      url: url,
+      payload: payload
+    },
+    (response) => {
+      if (chrome.runtime.lastError) {
+        UIkit.notification(`Error: ${chrome.runtime.lastError.message}`, {
+          status: "danger",
+          pos: "top-center"
+        });
+        return;
+      }
+
+      if (response.success) {
+        UIkit.notification(`Successfully posted ${linksFound.length} links!`, {
+          status: "success",
+          pos: "top-center"
+        });
+      } else if (response.error) {
+        UIkit.notification(`Error posting links: ${response.error}`, {
+          status: "danger",
+          pos: "top-center"
+        });
+      } else {
+        UIkit.notification(`Failed to post links: ${response.status} ${response.statusText}`, {
+          status: "danger",
+          pos: "top-center"
+        });
+      }
+    }
+  );
 });
 
 const CSV_ROW_SEPARATOR = "\n";

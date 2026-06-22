@@ -1,3 +1,4 @@
+
 <!doctype html>
 
 <link href="../../js/uikit/uikit.min.css" rel="stylesheet"/>
@@ -65,6 +66,17 @@
         </button>
         <button class="uk-button uk-button-secondary uk-button-small" id="saveCSVButton" type="button">
             <span uk-icon="database"></span> Save CSV file
+        </button>
+    </div>
+    <div class="uk-margin-top">
+        <label class="uk-form-label" for="postUrl">Post to URL:</label>
+        <div class="uk-form-controls">
+            <input class="uk-input uk-form-small" id="postUrl" type="text" placeholder="https://example.com/api/links">
+        </div>
+    </div>
+    <div style="margin-top: 0.5em">
+        <button class="uk-button uk-button-primary uk-button-small" id="postLinksButton" type="button">
+            <span uk-icon="cloud-upload"></span> Post links to URL
         </button>
     </div>
 
